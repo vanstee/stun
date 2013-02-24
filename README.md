@@ -1,6 +1,8 @@
 Stun
 ====
 
+[![Build Status](https://api.travis-ci.org/vanstee/stun.png?branch=master)](https://travis-ci.org/vanstee/stun)
+
 Ruby implementation of a STUN client conforming to [RFC
 5389](https://tools.ietf.org/html/rfc5389).
 
