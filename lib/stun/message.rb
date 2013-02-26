@@ -1,4 +1,5 @@
 require 'stun/message/classes'
+require 'stun/message/methods'
 
 module Stun
   class Message
@@ -6,7 +7,6 @@ module Stun
     TRANSACTION_ID_LENGTH = 96
     HEADER_LENGTH = 160
     MAX_PACK_LENGTH = 32
-    BINDING_METHOD = 0b00000000000001
 
     attr_accessor :message_class, :transaction_id
 
@@ -38,7 +38,7 @@ module Stun
     end
 
     def message_method
-      BINDING_METHOD
+      Methods::BINDING
     end
 
     def length
