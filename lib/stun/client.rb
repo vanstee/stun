@@ -1,9 +1,7 @@
 require 'socket'
+require 'stun/message'
 
 module Stun
-  class Message
-  end
-
   class Client
     ANY_INTERFACE_HOST = '0.0.0.0'
     MAX_RESPONSE_LENGTH = 548
