@@ -8,7 +8,7 @@ describe Stun::Message do
 
       message = Stun::Message.new
 
-      expect(message.message_class).to eq(Stun::Message::REQUEST_CLASS)
+      expect(message.message_class).to eq(Stun::Message::Classes::REQUEST)
       expect(message.transaction_id).to eq(8675309)
     end
 
@@ -17,7 +17,7 @@ describe Stun::Message do
 
       message = Stun::Message.new(:transaction_id => 3141592)
 
-      expect(message.message_class).to eq(Stun::Message::REQUEST_CLASS)
+      expect(message.message_class).to eq(Stun::Message::Classes::REQUEST)
       expect(message.transaction_id).to eq(3141592)
     end
   end

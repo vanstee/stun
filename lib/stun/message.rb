@@ -1,10 +1,11 @@
+require 'stun/message/classes'
+
 module Stun
   class Message
     MAGIC_COOKIE = 0x2112A442
     TRANSACTION_ID_LENGTH = 96
     HEADER_LENGTH = 160
     MAX_PACK_LENGTH = 32
-    REQUEST_CLASS = 0b00000000000000
     BINDING_METHOD = 0b00000000000001
 
     attr_accessor :message_class, :transaction_id
@@ -62,7 +63,7 @@ module Stun
 
     def default_options
       {
-        :message_class => REQUEST_CLASS,
+        :message_class => Classes::REQUEST,
         :transaction_id => generate_transaction_id
       }
     end
