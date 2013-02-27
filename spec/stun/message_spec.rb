@@ -3,33 +3,32 @@ require 'stun/message'
 
 describe Stun::Message do
   describe 'initialization' do
-    it 'sets default values' do
-      Stun::Message.any_instance.stub(:generate_transaction_id) { 8675309 }
+    it 'passes the options to a new header' do
+      options = { :message_class => Stun::Message::Classes::REQUEST }
 
-      message = Stun::Message.new
+      Stun::Message::Header.should_receive(:new).with(options)
 
-      expect(message.message_class).to eq(Stun::Message::Classes::REQUEST)
-      expect(message.transaction_id).to eq(8675309)
-    end
-
-    it 'allows custom options to override the default' do
-      Stun::Message.any_instance.stub(:generate_transaction_id) { 8675309 }
-
-      message = Stun::Message.new(:transaction_id => 3141592)
-
-      expect(message.message_class).to eq(Stun::Message::Classes::REQUEST)
-      expect(message.transaction_id).to eq(3141592)
+      Stun::Message.new(options)
     end
   end
 
   describe 'converting to raw bytes' do
-    it 'returns a binary string' do
+    it 'delegates to the header' do
       message = Stun::Message.new
 
-      bytes = message.to_bytes
+      message.header.should_receive(:to_bytes) { 'raw binary string' }
 
-      expect(bytes).to be_a(String)
-      expect(bytes).to have(20).characters
+      expect(message.to_bytes).to eq('raw binary string')
+    end
+  end
+
+  describe 'length of message' do
+    it 'delegates to the header' do
+      message = Stun::Message.new
+
+      message.header.should_receive(:length) { 400 }
+
+      expect(message.length).to eq(400)
     end
   end
 end
