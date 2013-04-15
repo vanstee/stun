@@ -1,3 +1,7 @@
+require 'stun/binary'
+require 'stun/message/classes'
+require 'stun/message/methods'
+
 module Stun
   class Message
     class Header

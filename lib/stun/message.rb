@@ -1,6 +1,4 @@
 require 'stun/message/header'
-require 'stun/message/classes'
-require 'stun/message/methods'
 
 module Stun
   class Message
