@@ -1,28 +1,24 @@
 require 'spec_helper'
 require 'stun/message/attribute'
 
-describe Stun::Message::Attribute do
-  describe 'initialization' do
-    it 'sets default values' do
-      Stun::Message::Attribute.any_instance.stub(:default_options) { { :length => 64 } }
-
-      attribute = Stun::Message::Attribute.new(:type => nil, :value => nil)
-
-      expect(attribute.length).to eq(64)
-    end
-
-    it 'allows custom options to override the default' do
-      Stun::Message::Attribute.any_instance.stub(:default_options) { { :length => 64 } }
-
-      attribute = Stun::Message::Attribute.new(:type => nil, :length => 128, :value => nil)
-
-      expect(attribute.length).to eq(128)
-    end
+class FakeAttribute < Stun::Message::Attribute
+  def type
+    0x0000
   end
 
+  def length
+    64
+  end
+end
+
+describe Stun::Message::Attribute do
   describe 'converting to raw bytes' do
+    it 'must be overridden' do
+      expect { Stun::Message::Attribute.new.to_bytes }.to raise_error(NotImplementedError)
+    end
+
     it 'returns a binary string' do
-      attribute = Stun::Message::Attribute.new(:type => 0x0001, :length => 64, :value => nil)
+      attribute = FakeAttribute.new
 
       bytes = attribute.to_bytes
 
@@ -33,9 +29,9 @@ describe Stun::Message::Attribute do
 
   describe 'rounding up the length' do
     it 'rounds up to the nearest boundary' do
-      attribute = Stun::Message::Attribute.new(:type => nil, :length => nil, :value => nil)
+      attribute = FakeAttribute.new
 
-      attribute.length = 54
+      attribute.stub(:length) { 54 }
 
       expect(attribute.length_rounded_up).to eq(64)
     end

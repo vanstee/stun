@@ -3,14 +3,6 @@ module Stun
     class Attribute
       BOUNDARY = 32
 
-      attr_accessor :type, :length
-
-      def initialize(options = {})
-        options = default_options.merge(options)
-        self.type = options.fetch(:type)
-        self.length = options.fetch(:length)
-      end
-
       def payload
         [
           type,
@@ -25,6 +17,14 @@ module Stun
         payload.pack("nn#{value_template}")
       end
 
+      def type
+        raise NotImplementedError
+      end
+
+      def length
+        raise NotImplementedError
+      end
+
       def length_rounded_up
         ((length / BOUNDARY) + 1) * BOUNDARY
       end
@@ -35,10 +35,6 @@ module Stun
 
       def value_template
         ''
-      end
-
-      def default_options
-        {}
       end
     end
   end
