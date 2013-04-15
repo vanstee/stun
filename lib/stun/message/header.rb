@@ -4,7 +4,6 @@ module Stun
       LENGTH = 160
       MAGIC_COOKIE = 0x2112A442
       TRANSACTION_ID_LENGTH = 96
-      MAX_PACK_LENGTH = 32
 
       attr_accessor :message_class, :transaction_id
 
@@ -44,13 +43,7 @@ module Stun
       end
 
       def chunked_transaction_id
-        number_of_chunks = TRANSACTION_ID_LENGTH / MAX_PACK_LENGTH
-        mask = 2 ** MAX_PACK_LENGTH - 1
-
-        (0...number_of_chunks).map { |chunk|
-          shift = chunk * MAX_PACK_LENGTH
-          (transaction_id >> shift) & mask
-        }.reverse
+        Binary.chunked(transaction_id)
       end
 
       private
